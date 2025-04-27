@@ -1,0 +1,17 @@
+pack = import("pack_builder")({
+	name = "pbtest";
+	description = "Pack Builder test";
+	dependencies.minecraft = "1.21.5";
+});
+
+// By default, namespace = pack.name
+ns = pack.namespace();
+
+times_called = pack.var(0);
+ns.function("hello_world", fn(cmd) -> {
+	cmd.log("Hello World");
+	times_called += 1;
+	cmd.log("This function has been called " .. int.to_str(times_called) .. " times.");
+});
+
+pack.build();

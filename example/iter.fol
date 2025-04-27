@@ -1,0 +1,21 @@
+my_range = fn(start, end) -> {
+	i = start;
+	return fn() -> {
+		i += 1;
+		return (
+			if i > end -> null;
+			else -> int.to_str(i) .. "/" .. int.to_str(end);
+		);
+	};
+};
+
+for text in my_range(0, 5) {
+	println(text);
+}
+for _ in range(0, 5) {
+	println("This is said five times.");
+}
+println("The items in the list are:");
+for item in ["apple", "banana", "orange"] {
+	println("- " .. item);
+}

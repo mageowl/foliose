@@ -1,0 +1,9 @@
+colors = {
+	green = "#00ff00";
+	blue = "#0000ff";
+	red = "#ff0000";
+};
+
+for key in map.keys(colors) {
+	println("The color " .. key .. " is equal to " .. colors.(key));
+}

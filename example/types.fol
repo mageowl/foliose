@@ -1,0 +1,10 @@
+rectangle = fn(width, height) -> {
+	ty.assert(width, "int");
+	ty.assert(height, "int");
+	width = width;
+	height = height;
+	__type = "rectangle";
+};
+
+my_rect = rectangle(10, 10);
+println(type_of(my_rect));

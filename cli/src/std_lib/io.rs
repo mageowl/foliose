@@ -1,0 +1,19 @@
+use lib::{
+    compat::function::IntoCallable,
+    error::{Error, Result},
+    interface,
+};
+
+interface!(Io {
+    println: println.into_callable(),
+    print: print.into_callable(),
+});
+
+pub fn println(text: String) -> Result<()> {
+    println!("{text}");
+    Ok(())
+}
+pub fn print(text: String) -> Result<()> {
+    print!("{text}");
+    Ok(())
+}
