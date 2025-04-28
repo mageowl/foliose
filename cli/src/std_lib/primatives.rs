@@ -7,7 +7,7 @@ use lib::{
     value::{MapRef, Value},
 };
 
-interface!(Integer {
+interface!(IntLib {
     to_str: int_to_str.into_callable()
 });
 
@@ -16,12 +16,17 @@ fn int_to_str(int: i32) -> Result<String> {
 }
 
 interface!(Map {
-    keys: keys.into_callable(),
+    keys: map_keys.into_callable(),
+    has: map_has.into_callable(),
 });
 
-fn keys(map: Rc<RefCell<dyn MapRef>>) -> Result<Vec<String>> {
+fn map_keys(map: Rc<RefCell<dyn MapRef>>) -> Result<Vec<String>> {
     Ok(map
         .borrow()
         .as_hashmap()
         .map_or_else(Vec::new, |m| m.keys().cloned().collect()))
+}
+
+fn map_has(map: Rc<RefCell<dyn MapRef>>, name: String) -> Result<bool> {
+    Ok(map.borrow().get(&name).is_some())
 }

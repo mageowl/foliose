@@ -14,6 +14,7 @@ name = "foliose-lib"
 version = "0.1.0"
 dependencies = [
  "self_cell",
+ "stringify-ident",
  "variadics_please",
 ]
 
@@ -40,6 +41,12 @@ name = "self_cell"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f7d95a54511e0c7be3f51e8867aa8cf35148d7b9445d44de2f943e2b206e749"
+
+[[package]]
+name = "stringify-ident"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "585d26344ec8e3a0dc2feaee40b6992f2984a314d257d43a02d6775a5359c545"
 
 [[package]]
 name = "syn"

@@ -7,7 +7,7 @@ use lib::{
     value::{Call, Value},
 };
 
-interface!(Iterators {
+interface!(IterLib {
     range: range.into_callable(),
 });
 

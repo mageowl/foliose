@@ -34,6 +34,7 @@ pub enum Expression<'a> {
         blocks: Vec<(Chunk<Self>, Chunk<Self>)>,
         else_block: Option<Chunk<Box<Self>>>,
     },
+    Import(Chunk<&'a str>),
 
     BinaryOp {
         a: Chunk<Box<Self>>,
@@ -162,6 +163,30 @@ impl<'a> Expression<'a> {
 
             Some(Token::KeywordFn) => Self::parse_fn(source)?,
             Some(Token::KeywordIf) => Self::parse_if(source)?,
+            Some(Token::KeywordImport) => {
+                let start = parse_token(source, Token::KeywordImport)?.start;
+                parse_token(source, Token::ParenOpen)?;
+                let path = match source.next().transpose()? {
+                    Some(Chunk {
+                        data: Token::String(path),
+                        span,
+                    }) => Chunk::new(path, span),
+                    Some(ch) => {
+                        return Err(Error::new(
+                            "Expected a string literal. The import function must have a constant path.",
+                            ch.span,
+                        ));
+                    }
+                    None => {
+                        return Err(Error::new(
+                            "Expected a string literal.",
+                            Span::char(*source.pos()),
+                        ));
+                    }
+                };
+                let end = parse_token(source, Token::ParenClose)?.end;
+                Chunk::new(Self::Import(path), Span { start, end })
+            }
 
             Some(Token::Bang | Token::Minus) => {
                 let Some(Ok(Chunk { span, data: op })) = source.next() else {

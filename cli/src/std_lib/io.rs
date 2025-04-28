@@ -4,7 +4,7 @@ use lib::{
     interface,
 };
 
-interface!(Io {
+interface!(IoLib {
     println: println.into_callable(),
     print: print.into_callable(),
 });

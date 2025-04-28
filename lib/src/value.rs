@@ -1,10 +1,5 @@
-use crate::{error::Result, metakeys, span::Span};
-use std::{
-    cell::{Ref, RefCell},
-    collections::HashMap,
-    fmt::Debug,
-    rc::Rc,
-};
+use crate::{error::Result, metakeys, module_registry::ModuleRegistry, span::Span};
+use std::{cell::RefCell, collections::HashMap, fmt::Debug, rc::Rc};
 
 #[derive(Clone)]
 pub enum Value {

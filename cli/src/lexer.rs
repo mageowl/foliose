@@ -230,6 +230,7 @@ impl<'a> TokenStream<'a> {
                         "in" => Token::KeywordIn,
                         "return" => Token::KeywordReturn,
                         "null" => Token::KeywordNull,
+                        "import" => Token::KeywordImport,
 
                         "true" => Token::Boolean(true),
                         "false" => Token::Boolean(false),

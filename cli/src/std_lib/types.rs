@@ -3,7 +3,7 @@ use lib::{
 };
 
 interface!(TypeLib {
-    type_of: type_of.into_callable(),
+    of: type_of.into_callable(),
     assert: assert.into_callable(),
 });
 

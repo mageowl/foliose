@@ -51,6 +51,7 @@ pub enum Token<'a> {
     KeywordIn,
     KeywordReturn,
     KeywordNull,
+    KeywordImport,
 }
 
 impl Token<'_> {
@@ -102,6 +103,7 @@ impl Token<'_> {
             Token::KeywordIn => "the in keyword",
             Token::KeywordReturn => "the return keyword",
             Token::KeywordNull => "the null keyword",
+            Token::KeywordImport => "the import keyword",
         }
     }
 }

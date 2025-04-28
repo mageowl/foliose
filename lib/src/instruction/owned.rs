@@ -103,6 +103,7 @@ fn visit_reporter(owned_buf: &mut Vec<String>, reporter: &Reporter) {
             visit_reporter(owned_buf, &b.data);
         }
         Reporter::Not(value) | Reporter::Negative(value) => visit_reporter(owned_buf, &value.data),
+        Reporter::Import(path) => owned_buf.push(path.data.to_string()),
     }
 }
 fn build_instruction<'a, 'b>(
@@ -249,6 +250,9 @@ fn build_reporter<'a, 'b>(
             }
             Reporter::Negative(value) => {
                 Reporter::Negative(build_reporter(owned_buf, value.unbox()).as_box())
+            }
+            Reporter::Import(path) => {
+                Reporter::Import(Chunk::new(owned_buf.next().unwrap().as_str(), path.span))
             }
         },
         reporter.span,

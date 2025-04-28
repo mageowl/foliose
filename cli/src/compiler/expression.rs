@@ -62,6 +62,7 @@ impl<'a> Compile<'a> for Expression<'a> {
                 },
                 span,
             )),
+            Expression::Import(path) => Ok(Chunk::new(Reporter::Import(path), span)),
             Expression::Call { value, args } => Ok(Chunk::new(
                 Reporter::Call(
                     value.unbox().compile(scope)?.as_box(),

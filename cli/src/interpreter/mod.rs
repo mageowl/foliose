@@ -1,13 +1,16 @@
-use std::{cell::RefCell, collections::HashMap, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, fs, rc::Rc};
 
 use function::Function;
 use lib::{
     error::{Error, Result},
     instruction::{Comparison, Instruction, Reporter},
+    module_registry::REGISTRY,
     span::Chunk,
     type_error,
     value::{MapRef, Value},
 };
+
+use crate::run;
 
 mod function;
 
@@ -196,6 +199,20 @@ pub fn evaluate(scope: &Rc<RefCell<Scope>>, reporter: Chunk<Reporter<'_>>) -> Re
                 .collect::<Result<Vec<_>>>()?;
             callable.call(parameters, reporter.span)
         }
+        Reporter::Import(path) => REGISTRY.with_borrow_mut(|registry| {
+            registry.get_or_initialize(path.data, |path| {
+                let code = fs::read_to_string(&path).map_err(|_| {
+                    Error::new(
+                        format!(
+                            "The module path '{path}' does not exist.",
+                            path = path.to_str().unwrap_or_default()
+                        ),
+                        reporter.span,
+                    )
+                })?;
+                run(&code)
+            })
+        }),
         Reporter::If { blocks, else_block } => {
             for (cond, body) in blocks {
                 let cond_span = cond.span;

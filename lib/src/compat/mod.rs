@@ -1,15 +1,20 @@
 pub mod function;
 pub mod type_name;
 
+#[doc(hidden)]
+pub use stringify_ident::stringify_ident;
+
 #[macro_export]
 macro_rules! interface {
-    ($name: ident {
-        $($var: ident: $value: expr),*
-        $(,)?
-    }) => {
+    (
+        $name: ident {
+            $($var: ident: $value: expr),*
+            $(,)?
+        }
+    ) => {
         #[derive(Debug)]
         pub struct $name {
-            $($var: $crate::value::Value),*
+            $(pub $var: $crate::value::Value),*
         }
 
         impl $name {
@@ -19,7 +24,7 @@ macro_rules! interface {
                 }
             }
             pub fn keys() -> Vec<&'static str> {
-                vec![$(stringify!($var)),*]
+                vec![$($crate::compat::stringify_ident!($var)),*]
             }
         }
 
@@ -29,9 +34,9 @@ macro_rules! interface {
             }
         }
         impl $crate::value::MapRef for $name {
-            fn get(&self, name: &str) -> Option<&$crate::value::Value> {
+            fn get(&self, name: &str) -> std::option::Option<&$crate::value::Value> {
                 match name {
-                    $(stringify!($var) => Some(&self.$var),)*
+                    $($crate::compat::stringify_ident!($var) => Some(&self.$var),)*
                     _ => None,
                 }
             }

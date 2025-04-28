@@ -50,6 +50,7 @@ pub enum Reporter<'a> {
     },
     Call(Chunk<Box<Self>>, Vec<Chunk<Self>>),
 
+    Import(Chunk<&'a str>),
     If {
         blocks: Vec<(Chunk<Self>, Chunk<Self>)>,
         else_block: Option<Chunk<Box<Self>>>,
